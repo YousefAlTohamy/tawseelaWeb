@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=, initial-scale=1.0">
+    <link rel="stylesheet" href="css/login.css">
+    <link rel="icon" href="imgs/icon.png">
+    <script src="https://kit.fontawesome.com/718cceb512.js" crossorigin="anonymous"></script>
+    <title>توصيلة - تسجيل دخول المشرف</title>
+
+</head>
+<body>
+    <main class="container">
+        <div class="login-box">
+            <div class="logo-container">
+                <img src="./imgs/Default.png" alt="توصيلة" class="logo">
+                <h1 class="heading-primary">مرحباً بك في لوحة التحكم</h1>
+                <p class="text-secondary">قم بتسجيل الدخول للمتابعة</p>
+            </div>
+            
+            <form id="MainForm" class="login-form">
+
+                <div class="form-group">
+                    <i class="fa-solid fa-envelope"></i>      
+                    <input type="email" id="emailInp" class="form-input" placeholder="البريد الإلكتروني" required >
+                    <span class="error-message" id="emailError"></span>
+                </div>
+                
+                <div class="form-group">
+                    <i class="fa-solid fa-lock"></i>
+                    <input type="password" id="passwordInp" class="form-input" placeholder="كلمة المرور" required>
+                    <span class="error-message" id="passwordError"></span>
+                </div>
+                
+                <button type="submit" class="login-button" >تسجيل الدخول</button>
+                
+            </form>
+        </div>
+    </main>
+    
+
+    
+    <script type="module">           
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
+        import { getDatabase, get, ref, child } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-database.js";
+        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
+
+        const firebaseConfig = {
+          apiKey: "AIzaSyAbCy4DtMr7tyy-eLxX2ns57DwQknuB7Aw",
+          authDomain: "dead-bot-app.firebaseapp.com",
+          projectId: "dead-bot-app",
+          storageBucket: "dead-bot-app.appspot.com",
+          messagingSenderId: "237711896721",
+          appId: "1:237711896721:web:3dc7aae380405f4f398f30",
+          measurementId: "G-J98YKN03F8"
+        };
+      
+        
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase();
+        const auth = getAuth(app);
+        const dbref = ref(db);
+
+        let EmailInp = document.getElementById('emailInp');
+        let PassInp = document.getElementById('passwordInp');
+        let MainForm = document.getElementById('MainForm');
+
+        let SignInUser = evt =>{
+            evt.preventDefault();
+            signInWithEmailAndPassword(auth, EmailInp.value, PassInp.value)
+            .then((Credentials)=>{
+                get(child(dbref, 'UsersAuthList/' + Credentials.user.uid)).then((snapshot)=>{
+                    if(snapshot.exists){
+                        sessionStorage.setItem("user-info",JSON.stringify({
+                            email: snapshot.val().Email
+                        }))
+                        sessionStorage.setItem("user-cred",JSON.stringify(Credentials.user))
+                        window.location.href="index.html"
+                    }
+                })
+            })
+            .catch((error)=>{
+                alert('You have no permission!');
+            })
+        }
+        MainForm.addEventListener('submit', SignInUser)
+      </script>
+</body>
+</html>
