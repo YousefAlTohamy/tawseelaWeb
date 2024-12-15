@@ -102,7 +102,7 @@
             <div class="stats">
                 <div class="stat-card">
                     <i class="fa-solid fa-car"></i>
-                    <h3>الرحلات النشطة</h3>
+                    <h3>الرحلات</h3>
                     <p id="countRides"></p>
                 </div>
                 <div class="stat-card">
@@ -118,15 +118,15 @@
             </div>
         </div>
         <div id="rides" class="page-content">
-            <h2>الرحلات النشطة</h2>
-            <p>هذه الصفحة تعرض جميع الرحلات النشطة التي تتم في الوقت الحالي.</p>
+            <h2>الرحلات</h2>
+            <p>هذه الصفحة تعرض جميع الرحلات التي تمت.</p>
             <table id="rides-table">
                 <thead>
                     <tr>
                         <th>من</th>
                         <th>الى</th>
-                        <th>تاريخ الانتهاء</th>
-                        <th>السعر</th>
+                        <th>تاريخ الرحلة</th>
+                        <th>التكلفة (جنية)</th>
                         <th>معرف العميل</th>
                     </tr>
                 </thead>
@@ -159,17 +159,51 @@
                     </tbody>
                 </table>
 
+                <br>
+                <h3>اضافة سائق جديد</h3>
                 <!-- نموذج لإضافة سائق جديد -->
                 <div class="add-driver-form addform">
                     <input type="text" id="nameInp" placeholder="الاسم">
-                    <input type="text" id="phoneInp" placeholder="رقم الهاتف">
-                    <input type="text" id="emailInp" placeholder="الحساب الالكتروني">
+                    <input type="number" id="phoneInp" placeholder="رقم الهاتف">
+                    <input type="email" id="emailInp" placeholder="الحساب الالكتروني">
                     <input type="text" id="passInp" placeholder="كلمة السر">
                     <input type="text" id="CarInp" placeholder="نوع السيارة">
                     <input type="text" id="imgInp" placeholder="عنوان الصورة">
-                    <input type="text" id="rateInp" placeholder="التقييم">
+                    <input type="number" id="rateInp" placeholder="التقييم">
                     <button class="add-driver-btn" onclick="addDrivers()" >إضافة سائق جديد</button>
+                    <!--<button class="add-driver-btn" id="saveChangesBtn">Save Changes</button>-->
+
                 </div>
+                <!-- نافذة منبثقة لتعديل السائق -->
+                <div id="editDriverPopup" class="popup">
+                    <div class="popup-content">
+                        <span class="close-btn" onclick="closeEditPopup()">&times;</span>
+                        <h3>تعديل بيانات السائق</h3>
+                        <label for="nameInp">الاسم:</label>
+                        <input type="text" id="nameInp2" placeholder="أدخل الاسم">
+                
+                        <label for="phoneInp">الهاتف:</label>
+                        <input type="text" id="phoneInp2" placeholder="أدخل الهاتف">
+                
+                        <label for="emailInp">البريد الإلكتروني:</label>
+                        <input type="email" id="emailInp2" placeholder="أدخل البريد الإلكتروني">
+                
+                        <label for="passInp">كلمة المرور:</label>
+                        <input type="password" id="passInp2" placeholder="أدخل كلمة المرور">
+                
+                        <label for="CarInp">السيارة:</label>
+                        <input type="text" id="CarInp2" placeholder="أدخل نوع السيارة">
+                
+                        <label for="imgInp">رابط الصورة:</label>
+                        <input type="text" id="imgInp2" placeholder="أدخل رابط الصورة">
+                
+                        <label for="rateInp">التقييم:</label>
+                        <input type="number" id="rateInp2" min="1" max="5" placeholder="أدخل التقييم">
+                
+                        <button id="saveChangesBtn">حفظ التعديلات</button>
+                    </div>
+                </div>
+  
             </div>
 
         </div>
@@ -184,33 +218,29 @@
                         <th>الكود</th>
                         <th>النسبة المئوية للخصم</th>
                         <th>تاريخ الانتهاء</th>
-                        <th>قيمة الخصم</th>
+                        <th>قيمة الخصم (جنية)</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td>خصم الرحلة الأولى</td>
-                        <td><span>FIRST50</span><button class="copy-btn"
-                                onclick="copyToClipboard('FIRST50')">نسخ</button></td>
-                        <td>50%</td>
-                        <td>31-12-2024</td>
-                        <td>50 جنيه</td>
-                    </tr>
-                    <tr>
-                        <td>خصم نهاية الأسبوع</td>
-                        <td><span>WEEKEND20</span><button class="copy-btn"
-                                onclick="copyToClipboard('WEEKEND20')">نسخ</button></td>
-                        <td>20%</td>
-                        <td>15-01-2025</td>
-                        <td>20 جنيه</td>
-                    </tr>
+                <tbody id="coupons-container">
+                    
                 </tbody>
             </table>
+            <br>
+                <h3>اضافة قسيمة جديدة</h3>
+                <!-- نموذج لاضافة قسيمة جديدة -->
+                <div class="add-driver-form addform">
+                    <input type="text" id="nCInp" placeholder="اسم القسيمة">
+                    <input type="text" id="codeInp" placeholder="الكود">
+                    <input type="text" id="perInp" placeholder="النسبة المئوية">
+                    <input type="datetime-local" id="endInp" placeholder="تاريخ الانتهاء">
+                    <input type="text" id="valInp" placeholder="قيمة الخصم">
+                    
+                    <button class="add-driver-btn" onclick="addCoupon()" >إضافة قسيمة جديدة</button>
+                </div>
         </div>
         <div id="logout" class="page-content">
             <button class="btn btn-outline-success" type="button" id="signoutbt">تسجيل الخروج</button>
         </div>
-        <!-- لوحات الإحصائيات -->
 
     </div>
 
