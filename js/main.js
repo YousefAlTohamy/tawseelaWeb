@@ -211,6 +211,7 @@ function createRideCard(rideObject) {
         <td>${rideObject.to}</td>
         <td>${formatTimestamp(rideObject.endTime)}</td>
         <td>${rideObject.price}</td>
+        <td>${rideObject.status}</td>
         <td>${rideObject.uid}</td> 
     </tr>
   `;
